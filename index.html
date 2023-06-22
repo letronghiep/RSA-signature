@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Chữ ký điện tử RSA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="max-w-[1200px] mx-auto">
+        <div class="flex justify-center mt-5 flex-col">
+            <h1 class="text-3xl text-center font-bold uppercase">Tạo khóa</h1>
+            <div class="flex flex-col  gap-6">
+                <div class="flex items-center gap-5">
+                    <div class="flex flex-col gap-2">
+                        <h2 class="font-semibold">Chọn hai số nguyên tố bất kỳ</h2>
+                        <div class="p-2 border w-[300px]">
+                            <input type="text" placeholder="p=?" class="outline-none  w-full p-num">
+                        </div>
+                        <div class="p-2 border w-[300px]">
+                        <input type="text" placeholder="q=?" class="outline-none w-full q-num">
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h2 class="font-semibold">Khóa công khai</h2>
+                        <div class="p-2 border w-[300px] bg-neutral-300">
+                            <input type="text" placeholder="e=?" class="outline-none w-full bg-transparent e-num" disabled>
+                        </div>
+                        <div class="p-2 border w-[300px] bg-neutral-300">
+                        <input type="text" placeholder="n=?" class="outline-none w-full bg-transparent n-num" disabled>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h2 class="font-semibold">Khóa bí mật</h2>
+                        <div class="flex gap-2">
+                            <div class="p-2 border w-[300px] bg-neutral-300">
+                                <input type="password" placeholder="d=?" class="outline-none w-full bg-transparent d-num" disabled>
+                            </div>
+                            <span class="open" style="cursor: pointer;">
+                                <i class="fa-regular fa-eye "></i>
+                            </span>
+                            <span class="close hidden" style="cursor: pointer;">
+                                <i class="fa-regular fa-eye-slash "></i>
+                            </span>
+                        </div>
+                        <div class="p-2 border w-[300px] bg-neutral-300">
+                        <input type="text" placeholder="n=?" class="outline-none w-full bg-transparent n-num" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <button class="hover:opacity-90 py-1.5 px-3 bg-blue-500 rounded-sm text-white generate-key">Tạo khóa</button>
+                    <button class="hover:opacity-90 py-1.5 px-3 bg-red-600 rounded-sm text-white reset-key">Reset</button>
+                    <button class="hover:opacity-90 py-1.5 px-3  bg-blue-500 rounded-sm text-white random-prime">Sinh ngẫu nhiên</button>
+                </div>
+            </div>
+        </div>
+        <div class="flex items-center mt-8 gap-10 justify-between">
+            <div class="flex flex-col gap-4">
+                <h3 class="font-semibold text-center">Phát sinh chữ ký</h3>
+                <!-- <div class="flex items-center"> -->
+                    <div class="flex flex-col justify-center gap-3 ">
+                        <div class="flex flex-col gap-3 items-center">
+                            <div class="flex items-center gap-2">
+                                <p class="flex-1">Văn bản cần ký:</p>
+                                    <div class="p-2 border w-[300px] flex-[3]">
+                                        <div class="parent-text"></div>
+                                        <input type="text" class="outline-none w-full text-input" >
+                                        <input type="text" class="hidden text-input-hidden" >
+                                    </div>
+                                    <label for="file-sign">
+                                        <input class="hidden show-gene-key" type="file" name="" id="file-sign" accept=".txt, .docx, .doc" >
+                                        <p class="py-1.5 px-3 bg-blue-500 text-white cursor-pointer hover:opacity-80">File</p>
+                                    </label>
+                            </div>
+                            <button class="py-1.5 px-3 bg-blue-500 hover:opacity-80 text-white w-[120px] flex justify-center sign-btn">Ký</button>
+                        </div>
+                            <div class="flex items-center gap-2">
+                                <p class="flex-1">Hàm băm:</p>
+                                    <div class="p-2 border  flex-[3] bg-neutral-300 w-[300px] h-[100px]">
+                                        <input disabled id="hash-text" type="text" class="outline-none w-full bg-transparent" >
+                                    </div>
+                                    <button class="px-3 py-1.5 bg-red-500 text-white hover:opacity-80" onclick="clearTextSign()">Xóa</button>
+                            </div>
+
+                        <div class="flex items-center gap-2">
+                            <p class="flex-1">Chữ ký:</p>
+                                <div class="p-2 border flex-[3] bg-neutral-300 w-[300px]">
+                                    <textarea disabled type="text" class="outline-none w-full bg-transparent text-content-check" rows="6" cols="30"></textarea>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <button class="py-1.5 px-2 bg-blue-500 hover:opacity-80 text-white move-btn">Chuyển</button>
+                                    <button class="py-1.5 px-2 bg-blue-500 hover:opacity-80 text-white save-signature">Lưu</button>
+                                </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+            <div class="flex flex-col gap-4">
+                <h3 class="font-semibold text-center">Kiểm tra chữ ký</h3>
+                <!-- <div class="flex items-center"> -->
+                    <div class="flex flex-col justify-center gap-3">
+                        <div class="flex items-center gap-2">
+                            <p class="flex-1">Văn bản ký:</p>
+                            
+                            <div class="p-2 border w-[300px] flex-[3]">
+                                    <div class="parent-check">
+                                    </div>
+                                    <input type="text" id="text-check" class="outline-none w-full" >
+                                    <input type="text" class="text-check-hidden hidden">
+                            </div>
+                            <label for="file-veri">
+                                <input class="hidden show-file-check" type="file" name="" id="file-veri" accept=".txt, .docx, .doc" >
+                                <p class="py-1.5 px-3 bg-blue-500 text-white cursor-pointer hover:opacity-80">File văn bản</p>
+                            </label>
+                        </div>
+                        <div class="flex flex-col gap-3 items-center justify-center">
+                            <div class="flex items-center gap-2">
+                                <p class="flex-1">Chữ ký:</p>
+                                    <div class="p-2 border w-[300px] flex-[3]">
+                                        <input type="text" id="text-sign-check" class="outline-none w-full" >
+                                    </div>
+                                    <label for="file-check">
+                                        <input class="hidden show-key-check" type="file" name="" id="file-check" accept=".txt, .docx, .doc">
+                                        <p class="py-1.5 px-3 bg-blue-500 text-white cursor-pointer hover:opacity-80">File chu ki</p>
+                                    </label>
+                            </div>
+                            <button class="px-3 py-1.5 bg-blue-500 cursor-pointer text-white w-[140px] hover:opacity-80 check-sign-btn">Kiểm tra chữ ký</button>
+                        </div>  
+                        <div class="flex items-center gap-2">
+                            <p class="flex-[1]">Thông báo:</p>
+                                <div class="p-2 border flex-[3] w-[300px]  bg-neutral-300">
+                                    <textarea disabled type="text" class="outline-none w-full bg-transparent notifi-check" rows="6" cols="30"></textarea>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <button class="py-1.5 px-2 bg-red-500 hover:opacity-80 text-white" onclick="clearCheckSign()">Xóa</button>
+                                    
+                                </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+            
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.5.0/jszip.min.js"></script>
+
+    <script src="index.js"></script>
+</body>
+</html>
